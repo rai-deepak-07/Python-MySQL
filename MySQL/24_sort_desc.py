@@ -1,4 +1,4 @@
-#Select with SQL prevent Injection.
+#Use of ORDER BY keyword to sort the data in Descending Order.
 
 import mysql.connector
 
@@ -12,10 +12,11 @@ mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
+field = "Name"
 
-qry = "Select *From "+table_name+" Where Address = %s"
-address = ('Delhi',)
-mycursor.execute(qry,address)
+#Create query to select all records sorted by Name in Descending Order
+qry = "Select * From " + table_name + " ORDER BY " + field + " DESC"
+mycursor.execute(qry)
 
 myresult = mycursor.fetchall()
 for i in myresult:

@@ -16,9 +16,11 @@ mycursor.execute(sql)
 
 table_name = "registration"
 
+#Check table exist or not query
 show_tables = "Show Tables LIKE '"+table_name+"'"
 mycursor.execute(show_tables)
 
+#Create table query
 create_table = "Create table "+table_name+" (st_id Int Auto_Increment Primary Key, Name Varchar(30), Address Varchar(50))"
 
 result = mycursor.fetchone()

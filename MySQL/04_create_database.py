@@ -7,5 +7,6 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-sql = "Create Database student_management"
+db_name = "student_management"
+sql = "Create Database " + db_name
 mycursor.execute(sql)

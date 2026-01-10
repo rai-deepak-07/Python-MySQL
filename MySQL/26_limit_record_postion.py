@@ -1,4 +1,4 @@
-#Select the limited record using LIMIT keyword.
+#Select the limited record using LIMIT from another position.
 
 import mysql.connector
 
@@ -12,9 +12,11 @@ mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
-limit = '1'
+limit = '3'
+offset = '2'
 
-qry = "Select *from "+table_name+" LIMIT "+limit
+#Create query to fetch limited records from a specific position
+qry = "Select *from "+table_name+" LIMIT "+limit+" OFFSET "+offset
 
 mycursor.execute(qry)
 result = mycursor.fetchall()

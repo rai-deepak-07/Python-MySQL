@@ -1,4 +1,4 @@
-#Use of ORDER BY keyword to sort the data in Descending Order.
+#Select with a where filter.
 
 import mysql.connector
 
@@ -12,9 +12,10 @@ mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
-field = "Name"
+address = "Delhi"
 
-qry = "Select *From "+table_name+" ORDER BY "+field+" DESC" 
+#Create query to select records with a specific address
+qry = "Select *From "+table_name+" Where Address='"+address+"'"
 mycursor.execute(qry)
 
 myresult = mycursor.fetchall()

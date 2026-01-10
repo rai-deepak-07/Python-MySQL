@@ -14,7 +14,8 @@ mycursor.execute(sql)
 table_name = "registration"
 field = "Name"
 
-qry = "Select *From "+table_name+" ORDER BY "+field
+#Create query to select all records sorted by Name in Ascending Order
+qry = "Select * From " + table_name + " ORDER BY " + field
 mycursor.execute(qry)
 
 myresult = mycursor.fetchall()

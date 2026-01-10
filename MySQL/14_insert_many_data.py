@@ -13,6 +13,7 @@ sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
 
+#Insert multiple data into registration table
 insert_data = "Insert Into "+table_name+" (Name, Address, email) Values(%s, %s, %s)"
 data_val =[
     ("Deepak","Karwi","rai@gmail.com"),

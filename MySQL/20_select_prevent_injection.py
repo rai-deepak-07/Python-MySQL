@@ -1,4 +1,4 @@
-#Select all data into the table.
+#Select with SQL prevent Injection.
 
 import mysql.connector
 
@@ -13,8 +13,10 @@ sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
 
-qry = "Select *From "+table_name
-mycursor.execute(qry)
+#Create query to select records with a specific address using parameterized query to prevent SQL injection
+qry = "Select *From "+table_name+" Where Address = %s"
+address = ('Delhi',)
+mycursor.execute(qry,address)
 
 myresult = mycursor.fetchall()
 for i in myresult:

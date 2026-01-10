@@ -13,7 +13,8 @@ sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
 
-qry = "Update "+table_name+" Set name = %s Where st_id = %s"
+#Create query to update record using parameterized query to prevent SQL injection
+qry = "Update " + table_name + " Set name = %s Where st_id = %s"
 val = ('Mohit Verma','4')
 
 mycursor.execute(qry, val)

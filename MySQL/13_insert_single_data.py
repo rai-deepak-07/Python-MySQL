@@ -1,4 +1,4 @@
-#Get inserted id
+#Insert single data into the table
 
 import mysql.connector
 
@@ -11,12 +11,11 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
-table_name = "registration"
 
-insert_data = "Insert Into "+table_name+" (Name, Address, email) Values(%s, %s, %s)"
-data_val = ("Pankaj","Sonipat","pankaj@gmail.com")
+#Insert single data into login table
+insert_data = "Insert Into login Values(%s, %s)"
+data_val = ("rai_deepak_07","Rai@123")
 
 mycursor.execute(insert_data, data_val)
 mydb.commit()
-
-print("1 record inserted, ID:", mycursor.lastrowid)
+print(mycursor.rowcount, "record inserted...")

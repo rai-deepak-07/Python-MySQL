@@ -1,4 +1,4 @@
-#Delete Record in Table
+#Select specific column data into the table.
 
 import mysql.connector
 
@@ -13,10 +13,10 @@ sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
 
-qry  = "Delete from "+table_name+" Where email = %s"
-email = ('rai@gmail.com',)
+#Select specific columns from the table
+qry = "Select Name, email From "+table_name
+mycursor.execute(qry)
 
-mycursor.execute(qry, email)
-mydb.commit()
-
-print(mycursor.rowcount," record(s) deleted...")
+myresult = mycursor.fetchall()
+for i in myresult:
+    print(i) 

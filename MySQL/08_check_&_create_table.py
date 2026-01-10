@@ -14,9 +14,11 @@ mycursor.execute(sql)
 
 table_name = "login"
 
-show_tables = "Show Tables LIKE '"+table_name+"'"
+#Query to check table existence
+show_tables = "Show Tables LIKE '"+ table_name +"'"
 mycursor.execute(show_tables)
-
+    
+#Table creation query
 create_table = "Create table Login(username Varchar(30), password Varchar(30))"
 
 result = mycursor.fetchone()

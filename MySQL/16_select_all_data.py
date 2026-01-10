@@ -1,4 +1,4 @@
-#Select with a wildcard character. 
+#Select all data into the table.
 
 import mysql.connector
 
@@ -12,9 +12,9 @@ mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
 table_name = "registration"
-address = "%De%"
 
-qry = "Select *From "+table_name+" Where Address LIKE '"+address+"'"
+#Select all data from the table
+qry = "Select *From "+table_name
 mycursor.execute(qry)
 
 myresult = mycursor.fetchall()

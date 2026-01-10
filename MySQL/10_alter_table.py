@@ -1,4 +1,4 @@
-#Select with a where filter.
+#Alter the exists table and add new column.
 
 import mysql.connector
 
@@ -11,12 +11,10 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 sql = "use student_management"
 mycursor.execute(sql)
+
 table_name = "registration"
-address = "Delhi"
 
-qry = "Select *From "+table_name+" Where Address='"+address+"'"
-mycursor.execute(qry)
+#Alter table and add new column
+alter_table = "ALTER TABLE "+table_name+" ADD COLUMN email Varchar(30)"
 
-myresult = mycursor.fetchall()
-for i in myresult:
-    print(i)
+mycursor.execute(alter_table)
