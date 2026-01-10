@@ -1,0 +1,787 @@
+[1]. How to use python in database app?
+
+    =>  Python can be used in database applications.
+    =>  One of the most popular databases is MySQL.
+
+    Steps to use MySQL in python
+    =============================
+
+        =>  Python needs a MySQL driver to access the MySQL database.
+        =>  "MySQL Connector" driver is used to access the MySQL database in python applications.
+        =>  Install "MySQL Connector" using the following command:
+
+            cmd:    python pip -m install mysql-connector-python
+
+        Note: pip is already installed in your python environment.
+
+    Test MySQL Connector install or Not 
+    ====================================
+
+    => To test the installation was successful, or if you already have "MySQL Connector" installed. 
+
+    => Create a python file (mysql_test.py):
+            
+            import mysql.connector
+
+    => If the above code was executed without errors, It means "MySQL Connector" is installed and ready to be use.
+
+
+    =====================================================
+            || Create MySQL Connection in Python ||  
+    =====================================================
+
+    =>  To create MySQL connection in python use the mysql.connector.connect().
+    =>  Inside the above function we can pass the host, username and password.
+
+    =>  Create new python file (mysql_connection.py):
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost", 
+                user="rai_deepak_07"    //Change username
+                password="#MySQL@2003"  //Change password
+            )
+
+            print(mydb)
+
+    =>  In the above code mydb is an object of our mysql connection.
+
+    =>  If above code run successfully and show the following statement it means mysql connect successfully.
+
+        <mysql.connector.connection_cext.CMySQLConnection object at 0x000002975CE8D790>
+
+    =====================================================
+            || How to write SQL query in Python ||  
+    =====================================================
+
+    => First of all create cursor.
+    
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+
+
+        Note: mycursor is used to hold the result of query.
+
+    => Now we can write sql query in two way:
+
+        1st way:
+        ----------
+
+            => You can write sql query direct inside the execute() function like the following code:
+
+            syntax:
+            -------
+                mycursor.execute("your query")
+
+            Example:
+            ---------
+                mycursor.execute("Show Databases")
+
+
+
+        2nd way:
+        ----------
+
+            =>  In 2nd way you can store your query in a variable and write the variable inside the execute() function.
+
+            syntax:
+            --------
+                sql = "your query"
+                mycursor.execute(sql)
+
+            Example:
+            ---------
+                sql = "Show Databases"
+                mycursor.execute(sql)
+
+
+    =====================================================
+              || Check if Database Exists ||  
+    =====================================================
+
+        =>  First of all Create MySQL Connection after creation use tha following code:
+
+            database="rai"              //Enter your database name
+            mycursor = mydb.cursor()
+            sql = "show databases"
+            mycursor.execute(sql)
+            check_database_exist = False
+
+            for i in mycursor:
+                if(i[0]==database):
+                check_database_exist=True
+
+            if(check_database_exist==True):
+                print("Database Found")
+            else:
+                print("Database Not Found")
+
+        => If you want to check all exist database then we can use this code:
+
+            mycursor = mydb.cursor()
+            sql = "show databases"
+            mycursor.execute(sql)
+
+            for i in mycursor:
+                print(i)
+
+            print(mycursor)
+
+
+    =====================================================
+              || Create Database in Python ||  
+    =====================================================
+
+    =>  Create Database Direct without check it database exist or not:
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "Create Database student_management"
+        mycursor.execute(sql)
+
+    Note: When you execute this code 2nd time you can see some error like database already exist.
+
+    =>  Create Database after check it database exists or not:
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()                        #cursor
+            db_name = "student_management"                  #Database Name
+            check_database = False                          
+
+            show_db = "Show Databases"                      #Query to show db
+            mycursor.execute(show_db)
+            create_db = "Create Database " + db_name        #Query to create db  
+
+            for i in mycursor:
+                if(i[0]==db_name):
+                    check_database = True
+
+            if (check_database==True):
+                print("Database Already Exist...")
+            else:
+                mycursor.execute(create_db)
+                print("Database Created Successfully...")
+
+
+    =====================================================
+              || Create Table in Python ||  
+    =====================================================
+
+    =>  To Create table in MySQL, use the "Create Table" statement.
+
+    =>  Before creation of table use the database.
+
+    =>  Create Table Direct without check it table exist or not:
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "Use student_management"      #Query
+        mycursor.execute(sql)               #Use Database
+
+        create_table = "Create Table Login(username Varchar(40), password Varchar(30))"
+        mycursor.execute(create_table)
+
+
+        Note: When you execute this code 2nd time you can see some error like table  already exist.
+    
+    =>  Create Table after check it Table exists or not:
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+
+            table_name = "login"
+
+            show_tables = "Show Tables LIKE '"+table_name+"'"
+            mycursor.execute(show_tables)
+
+            create_table = "Create table Login(username Varchar(30), password Varchar(30))"
+
+            result = mycursor.fetchone()
+            if result:
+                print("Table Already Exist...")    
+            else:
+                mycursor.execute(create_table)
+                print("Table Created Successfully...")    
+
+    =>  Create Table with primary key:
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+
+            table_name = "registration"
+
+            show_tables = "Show Tables LIKE '"+table_name+"'"
+            mycursor.execute(show_tables)
+
+            create_table = "Create table "+table_name+" (st_id Int Auto_Increment Primary Key, Name Varchar(30), Address Varchar(50))"
+
+            result = mycursor.fetchone()
+            if result:
+                print("Table Already Exist...")    
+            else:
+                mycursor.execute(create_table)
+                print("Table Created Successfully...")
+
+
+    =====================================================
+              || Alter Table in Python ||  
+    =====================================================
+
+    => If the table already exists, use the 'Alter Table' keyword:
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+
+            table_name = "registration"
+
+            alter_table = "ALTER TABLE "+table_name+" ADD COLUMN email Varchar(30)"
+
+            mycursor.execute(alter_table)
+
+    =====================================================
+              || Insert Data in MySQL ||  
+    =====================================================
+
+    =>  To fill a table in MySQL, use the "INSERT INTO" statement.
+
+    =>  Insert single record in the table.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+
+            insert_data = "Insert Into login Values(%s, %s)"
+            data_val = ("rai_deepak_07","Rai@123")
+
+            mycursor.execute(insert_data, data_val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted...")
+
+    =>  In above code %s is type of data... it will set using the data_val.
+
+    Note: mydb.commit() is requered to make the changes, otherwise no changes are made to the table.
+
+
+    =====================================================
+              || Insert Multiple Row/Data in MySQL ||  
+    =====================================================
+
+    =>  To insert multiple rows into a table executemany() method.
+
+    =>  The second parameter of the executemany() method is a list of tuples, containing the data you want to insert:
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "registration"
+
+        insert_data = "Insert Into "+table_name+" (Name, Address, email) Values(%s, %s, %s)"
+        data_val =[
+            ("Deepak","Karwi","rai@gmail.com"),
+            ("Ujjwal","Pryagraj","ujjwal@gmail.com"),
+            ("Naman","Delhi","naman@gmail.com"),
+            ("Mohit","Delhi","mohit@gmail.com")
+        ]
+
+        mycursor.executemany(insert_data, data_val)
+        mydb.commit()
+        print(mycursor.rowcount, "record inserted...")
+
+
+    =>  Get Inserted ID:
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+
+            insert_data = "Insert Into "+table_name+" (Name, Address, email) Values(%s, %s, %s)"
+            data_val = ("Pankaj","Sonipat","pankaj@gmail.com")
+
+            mycursor.execute(insert_data, data_val)
+            mydb.commit()
+
+            print("1 record inserted, ID:", mycursor.lastrowid)
+
+
+    =====================================================
+              || Select From a Table ||  
+    =====================================================
+
+
+    =>  To select from a table in MySQL, use the "SELECT" statement.
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "registration"
+
+        qry = "Select *From "+table_name
+        mycursor.execute(qry)
+
+        myresult = mycursor.fetchall()
+        for i in myresult:
+            print(i) 
+
+    Note: fetchall() method is used to featchs all rows from the last executed statement.
+
+    => To select on some of the column in a table, use the "SELECT" statement followed by the column name(s):
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "registration"
+
+        qry = "Select Name, email From "+table_name
+        mycursor.execute(qry)
+
+        myresult = mycursor.fetchall()
+        for i in myresult:
+            print(i) 
+
+
+    =====================================================
+                || Python MySQL Where ||  
+    =====================================================
+
+    Select with a filter
+    ======================
+
+        =>  When selecting records from a table, you can filter the selection by using the "WHERE" statement:
+
+
+            #Select with a where filter.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+            address = "Delhi"
+
+            qry = "Select *From "+table_name+" Where Address='"+address+"'"
+            mycursor.execute(qry)
+
+            myresult = mycursor.fetchall()
+            for i in myresult:
+                print(i)
+
+
+        =>  You can also select the record that starts , includes, or ends with a given letter or phrase.
+
+        =>  Use the % to represent wildcard characters:
+
+            #Select with a wildcard character. 
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+            address = "%De%"
+
+            qry = "Select *From "+table_name+" Where Address LIKE '"+address+"'"
+            mycursor.execute(qry)
+
+            myresult = mycursor.fetchall()
+            for i in myresult:
+                print(i)
+    
+    Prevent SQL Injection 
+    ========================
+
+        =>  When query values are provided by the user, you should escape the values.
+
+        =>  This is to prevent SQL injections, which is a common web hacking technique to destroy or misuse your database.
+
+        =>  The mysql.connector module has methods to escape query values:
+
+            #Select with SQL prevent Injection.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+
+            qry = "Select *From "+table_name+" Where Address = %s"
+            address = ('Delhi',)
+            mycursor.execute(qry,address)
+
+            myresult = mycursor.fetchall()
+            for i in myresult:
+                print(i)
+
+    =====================================================
+                || Python MySQL Order By ||  
+    =====================================================
+
+    =>  Use the ORDER BY statement to sort the result in ascending or descending order.
+
+    Ascending Order:
+    =================   
+        
+        =>  The ORDER BY keyword sorts the result ascending by Default. 
+
+            #Use of ORDER BY keyword to sort the data in Ascending Order.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+            field = "Name"
+
+            qry = "Select *From "+table_name+" ORDER BY "+field
+            mycursor.execute(qry)
+
+            myresult = mycursor.fetchall()
+            for i in myresult:
+                print(i)
+
+
+    Descending Order:
+    =================  
+        =>  Use the DESC keyword to sort the result in a descending order.
+
+            #Use of ORDER BY keyword to sort the data in Descending Order.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+            field = "Name"
+
+            qry = "Select *From "+table_name+" ORDER BY "+field+" DESC"
+            mycursor.execute(qry)
+
+            myresult = mycursor.fetchall()
+            for i in myresult:
+                print(i)
+
+    =====================================================
+                || Python Delete Table Record ||  
+    =====================================================
+
+    =>  You can delete records from an existing table by using the "DELETE FROM" statement:
+
+        #Delete Record in Table
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "registration"
+
+        qry  = "Delete from "+table_name+" Where email = %s"
+        email = ('rai@gmail.com',)
+
+        mycursor.execute(qry, email)
+        mydb.commit()
+
+        print(mycursor.rowcount," record(s) deleted...")
+
+
+    Note: mydb.commit() is required to make the changes, otherwise no changes are made to the table.
+
+
+    Notice the where clause in the Delete syntax:  THe WHERE clause specifies which record(s) that should be deleted. If you commit the WHERE clause, all records will be deleted.
+
+
+    =====================================================
+                || MySQL Drop Table ||  
+    =====================================================
+
+    Drop a Table:
+    ================
+
+    =>  You can delete an existing table by using the "DROP TABLE" statement:
+
+
+        #Drop a Table 
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "login"
+
+        qry  = "Drop Table "+table_name
+
+        mycursor.execute(qry)
+
+    Drop Only if Exist:
+    =====================
+
+    =>  If the table you want to delete is already deleted, or for any other reason does not exist, you can the IF EXISTS keyword to avoid getting an error.
+
+        #Drop Only if Exist 
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "login"
+
+        qry  = "Drop Table If Exists "+table_name
+
+        mycursor.execute(qry)
+
+
+
+    =====================================================
+                || MySQL Update Table ||  
+    =====================================================
+
+    =>  You can update existing records in a table by using the "UPDATE" statement.
+
+    Update record using Prevent SQL Injection:
+    ===========================================
+
+    =>  It is considered a good practice to escape the value of any query, also in update statements.
+
+    =>  This is to prevent SQL injections, which is a comman web hacking technique to destroy or misuse your database.
+
+    =>  The mysql.connector module uses the placeholder %s to escape values in the delete statement.
+
+    =>  Escape values by using the placeholder %s method:
+
+        # Update table record using prevent SQL injection.
+
+        import mysql.connector
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="rai_deepak_07",
+            password="#MySQL@2003"
+        )
+
+        mycursor = mydb.cursor()
+        sql = "use student_management"
+        mycursor.execute(sql)
+        table_name = "registration"
+
+        qry = "Update "+table_name+" Set name = %s Where st_id = %s"
+        val = ('Mohit Verma','4')
+
+        mycursor.execute(qry, val)
+        mydb.commit()
+
+        print(mycursor.rowcount," record(s) affected successfully...")
+
+
+
+    =====================================================
+                || MySQL Limit ||  
+    =====================================================
+
+    Limit the Result:
+    ==================
+
+        => You can limit the number of records returned from the query, by using the "LIMIT" statement.
+
+            #Select the limited record using LIMIT keyword.
+
+            import mysql.connector
+
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="rai_deepak_07",
+                password="#MySQL@2003"
+            )
+
+            mycursor = mydb.cursor()
+            sql = "use student_management"
+            mycursor.execute(sql)
+            table_name = "registration"
+            limit = '1'
+
+            qry = "Select *from "+table_name+" LIMIT "+limit
+
+            mycursor.execute(qry)
+            result = mycursor.fetchall()
+
+            for i in result:
+                print(i)
+
+        Start From Another Position :
+        ==============================
+
+            =>  If you want to return three records, starting from the third record, you can use the "OFFSET" keyword:
+
+                #Select the limited record using LIMIT from another position.
+
+                import mysql.connector
+
+                mydb = mysql.connector.connect(
+                    host="localhost",
+                    user="rai_deepak_07",
+                    password="#MySQL@2003"
+                )
+
+                mycursor = mydb.cursor()
+                sql = "use student_management"
+                mycursor.execute(sql)
+                table_name = "registration"
+                limit = '3'
+                offset = '2'
+                qry = "Select *from "+table_name+" LIMIT "+limit+" OFFSET "+offset
+
+                mycursor.execute(qry)
+                result = mycursor.fetchall()
+
+                for i in result:
+                    print(i)
