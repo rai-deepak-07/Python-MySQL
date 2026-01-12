@@ -1,3 +1,5 @@
+#Program to simulate a brute-force password cracker
+
 import string, os, time
 from random import randint
 
@@ -6,7 +8,10 @@ pswd = input("🔐 Enter the password: ")
 
 # Step 02: Define all possible characters
 keys = []
-keys.extend(list(string.digits))  # you can add letters later
+keys.extend(list(string.digits)) 
+keys.extend(list(string.ascii_letters))
+keys.extend(list(string.punctuation)) 
+keys.extend(list(string.whitespace)) 
 
 # Step 03: Initialize variables
 pwg = ""
@@ -42,4 +47,4 @@ print("🔓 ------------------------")
 print(f"🔑 Password   : {pwg}")
 print(f"🔁 Attempts   : {attempts}")
 print(f"⏱️ Time Taken : {total_time:.2f} seconds")
-print("🎉 Attack Successful!")
+print("🎉 Crack Successful!")
